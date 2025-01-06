@@ -1,17 +1,18 @@
 # qual imagem será utilizada
-FROM ubuntu:22.04
+FROM python:3.9-alpine
 
-# criando container
-RUN apt-get update && apt-get install -y python3.11 python3.11-dev python3-pip
 
 # criar a pasta que vai ser containerizada
 WORKDIR /app
 
+COPY requirements.txt .
+
+RUN pip3 install --no-cache-dir -r requirements.txt
+
 # copiar de . para /app (dentro do ubuntu)
-COPY . /app
+
 
 # executando dentro do container
-RUN pip3 install --no-cache-dir -r requirements.txt
 
 # qual porta a aplicação está rodando
 EXPOSE 8080
@@ -25,4 +26,5 @@ ENV EMAIL="maitas@email.com"
 ENV PROFISSAO="Programador Freelancer"
 ENV SITE="github.com/Matiaszz"
 
+COPY . .
 CMD ["python3", "app.py"]
